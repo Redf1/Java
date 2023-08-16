@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form id="formListado">
+            <p:dataTable id="tablaEstudiantes" paginator="true" paginatorPosition="bottom" rows="10" var="estudiante" rowsPerPageTemplate="4,6,8" >
+                <p:column headerText="Carnet" style = "text-align: center">
+                    <p:outputLabel value="#{estudiante.carnet}"/>
+                </p:column>
+                <p:column headerText="Nombre">
+                    <p:outputLabel value="#{estudiante.nombre}"/>
+                </p:column>
+                <p:column headerText="Apellido">
+                    <p:outputLabel value="#{estudiante.apellidos}"/>
+                </p:column>
+                <p:column headerText="Fecha de nacimiento">
+                    <p:outputLabel value="#{estudiante.fechaNacimiento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="Telefono">
+                    <p:outputLabel value="#{estudiante.telefono}"/>
+                </p:column>
+                <p:column headerText="Cuota">
+                    <p:outputLabel value="#{estudiante.cuota}">
+                        <f:convertNumber type="currency" currencySymbol="$"/>
+                    </p:outputLabel>
+
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
