@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../plantilla/plantilla.xhtml">
+
+            <ui:define name="content">
+                <h3>LISTADO DE REMESAS</h3>
+                <h:form>
+                    <p:commandButton value="Agregar Remesa" actionListener="#{remesaControl.limpiarRemesa()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregar"/>
+                    <p:separator/>
+                </h:form>
+                <h:form id="formListado">
+                    <p:dataTable id="tablaRemesa" paginator="true" paginatorPosition="bottom" rows="10" var="remesa" value="#{remesaControl.listaRemesas}" emptyMessage="No existen remesas">
+                        <p:column headerText="ID">
+                            <h:outputText value="#{remesa.idRemesa}"/>
+                        </p:column>
+                        <p:column headerText="PAIS">
+                            <h:outputText value="#{remesa.pais.nombre}"/>
+                        </p:column>
+                        <p:column headerText="PERSONA ENVIA">
+                            <h:outputText value="#{remesa.personaEnvia.nombre} #{remesa.personaEnvia.apellido}"/>
+                        </p:column>
+                        <p:column headerText="PERSONA RECIBE">
+                            <h:outputText value="#{remesa.personaRecibe.nombre} #{remesa.personaRecibe.apellido}"/>
+                        </p:column>
+                        <p:column headerText="FORMA PAGO">
+                            <h:outputText value="#{remesa.formaPago.nombre}"/>
+                        </p:column>
+                        <p:column headerText="ESTADO">
+                            <h:outputText value="#{remesa.estado.nombre}"/>
+                        </p:column>
+                        <p:column headerText="USUARIO">
+                            <h:outputText value="#{remesa.usuario.usuario}"/>
+                        </p:column>
+                        <p:column headerText="MONTO" style="text-align: right">
+                            <h:outputText value="#{remesa.monto}">
+                                <f:convertNumber type="currency" currencySymbol="$" />
+                            </h:outputText>
+                        </p:column> 
+                        <p:column headerText="CLAVE REMESA" style="text-align: center">
+                            <h:outputText value="#{remesa.clave}"/>
+                        </p:column>
+                        <p:column headerText="FECHA ENVIO" style="text-align: center">
+                            <h:outputText value="#{remesa.fechaEnvio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="es"/>
+                            </h:outputText>
+                        </p:column>    
+                        <p:column headerText="FECHA RETIRO" style="text-align: center">
+                            <h:outputText value="#{remesa.fechaRetiro}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" locale="es"/>
+                            </h:outputText>
+                        </p:column>    
+                        <p:column headerText="MODIFICAR" style="text-align: center">
+                            <p:commandButton icon="pi pi-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificar">
+                                <f:setPropertyActionListener target="#{remesaControl.remesa}" value="#{remesa}"/>
+                            </p:commandButton>
+                        </p:column>
+                        <p:column headerText="ELIMINAR" style="text-align: center">
+                            <p:commandButton icon="pi pi-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminar">
+                                <f:setPropertyActionListener target="#{remesaControl.remesa}" value="#{remesa}"/>
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+
+                <h:form id="formAgregar">
+                    <p:dialog id="dlgAgregar" header="Agregar Remesa" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Pais:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.pais.idPais}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaPaises}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Persona envia:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.personaEnvia.idPersonaEnvia}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaPersonasEnvian}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Persona recibe"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.personaRecibe.idPersonaRecibe}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaPersonasReciben}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Forma pago:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.formaPago.idFormaPago}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaFormasPago}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Estado:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.estado.idEstado}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaEstados}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Monto:"/>
+                            <p:inputNumber decimalPlaces="2" symbol="$" decimalSeparator="." thousandSeparator="," value="#{remesaControl.remesa.monto}" inputStyle="text-align: right"/>                             
+                            <p:outputLabel value="Clave remesa"/>
+                            <p:inputText value="#{remesaControl.remesa.clave}"/>
+                            <p:outputLabel value="Fecha envio"/>
+                            <p:calendar value="#{remesaControl.remesa.fechaEnvio}" pattern="dd/MM/yyyy" locale="es" navigator="true" yearRange="c:c" inputStyle="text-align: center"/>
+                            <p:outputLabel value="Fecha retiro"/>
+                            <p:calendar value="#{remesaControl.remesa.fechaRetiro}" pattern="dd/MM/yyyy" locale="es" navigator="true" yearRange="c:c" inputStyle="text-align: center"/>
+                            <p:commandButton  value="Guardar" actionListener="#{remesaControl.agregarRemesa()}" update=":formListado:tablaRemesa" oncomplete="PF('dialogoAgregar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+                        </p:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formModificar">
+                    <p:dialog id="dlgModificar" header="Modificar Remesa" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+                            <p:outputLabel value="Pais:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.pais.idPais}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaPaises}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Persona envia:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.personaEnvia.idPersonaEnvia}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaPersonasEnvian}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Persona recibe"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.personaRecibe.idPersonaRecibe}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaPersonasReciben}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Forma pago:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.formaPago.idFormaPago}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaFormasPago}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Estado:"/>
+                            <p:selectOneMenu filterMatchMode="contains" filter="true" value="#{remesaControl.remesa.estado.idEstado}">
+                                <f:selectItem itemLabel="-- Seleccione -- "/>
+                                <f:selectItems value="#{remesaControl.listaEstados}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Monto:"/>
+                            <p:inputNumber decimalPlaces="2" symbol="$" decimalSeparator="." thousandSeparator="," value="#{remesaControl.remesa.monto}" inputStyle="text-align: right"/>                             
+                            <p:outputLabel value="Clave remesa"/>
+                            <p:inputText value="#{remesaControl.remesa.clave}"/>
+                            <p:outputLabel value="Fecha envio"/>
+                            <p:calendar value="#{remesaControl.remesa.fechaEnvio}" pattern="dd/MM/yyyy" locale="es" navigator="true" yearRange="c:c" inputStyle="text-align: center"/>
+                            <p:outputLabel value="Fecha retiro"/>
+                            <p:calendar value="#{remesaControl.remesa.fechaRetiro}" pattern="dd/MM/yyyy" locale="es" navigator="true" yearRange="c:c" inputStyle="text-align: center"/>
+                            <p:commandButton  value="Guardar" actionListener="#{remesaControl.modificarRemesa()}" update=":formListado:tablaRemesa" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:panelGrid>
+
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminar">
+                    <p:dialog id="dlgEliminar" header="Eliminar Remesa" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                        <h:outputText value="Desea eliminar este registro?"/>
+                        <p:commandButton  value="Si" actionListener="#{remesaControl.eliminarRemesa()}" update=":formListado:tablaRemesa" oncomplete="PF('dialogoEliminar').hide();"/>
+                        <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
