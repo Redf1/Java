@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Sistema de remesas</title>
+        <h:outputStylesheet name="/css/login.css"/>
+    </h:head>
+    <h:body>
+        <div class="login">
+             <h:form id="formLogin"> 
+                <p:growl id="mensaje"  showDetail="true" life="3000" />
+
+                <p:panel header="Sistema de Remesas" widgetVar="dlg" >
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel for="usuario" value="Usuario:" />
+                        <p:inputText id="usuario" value="#{loginControl.usuario.usuario}" placeholder="Usuario" required="true" label="username" requiredMessage="Escriba el usuario por favor" />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password id="password" value="#{loginControl.usuario.clave}" placeholder="Password" required="true" label="password" requiredMessage="Escriba el password por favor" />
+
+                        <f:facet name="footer">
+                            <p:commandButton icon="ui-icon-person" value="Ingresar" update="mensaje" action="#{loginControl.login()}"/>
+                        </f:facet>  
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>
