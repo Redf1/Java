@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="remesasfechas" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="680" leftMargin="56" rightMargin="56" topMargin="56" bottomMargin="56" uuid="5aee2584-baf1-493e-9126-77d6929089eb">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="19"/>
+	<parameter name="fecha_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT id_remesa, r.id_pais, p.nombre as nombre_pais,
+ r.id_persona_envia, concat(pe.nombre, ' ', pe.apellido) as persona_envia,
+ r.id_persona_recibe, concat(pr.nombre, ' ', pr.apellido) as persona_recibe,
+ r.id_forma_pago, fp.nombre as forma_pago,
+r.id_estado, e.nombre as estado,
+r.id_usuario, concat(u.nombre, ' ', if(u.apellido is null, '', u.apellido)) as nombre_usuario,
+monto, r.clave, fecha_envio, fecha_retiro
+FROM remesa as r
+inner join pais as p on r.id_pais = p.id_pais
+inner join persona_envia as pe on r.id_persona_envia = pe.id_persona_envia
+inner join persona_recibe as pr on r.id_persona_recibe = pr.id_persona_recibe
+inner join forma_pago as fp on r.id_forma_pago = fp.id_forma_pago
+inner join estado as e on r.id_estado = e.id_estado
+inner join usuario as u on r.id_usuario = u.id_usuario
+ where fecha_envio between $P{fecha_inicio} and $P{fecha_fin}]]>
+	</queryString>
+	<field name="id_remesa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_pais" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_pais" class="java.lang.String"/>
+	<field name="id_persona_envia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="persona_envia" class="java.lang.String"/>
+	<field name="id_persona_recibe" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="persona_recibe" class="java.lang.String"/>
+	<field name="id_forma_pago" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="forma_pago" class="java.lang.String"/>
+	<field name="id_estado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="estado" class="java.lang.String"/>
+	<field name="id_usuario" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_usuario" class="java.lang.String"/>
+	<field name="monto" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_envio" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_retiro" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<title>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="56" y="17" width="624" height="33" uuid="bfe5e643-6a8a-4f27-8913-429c8a971f41"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTADO DE REMESAS POR RANGO DE FECHAS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="56" height="50" uuid="bb16a439-29ac-499a-a483-e62f457671f0"/>
+				<imageExpression><![CDATA["remesa.JPG"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="127" splitType="Stretch">
+			<textField>
+				<reportElement x="26" y="11" width="100" height="20" uuid="7bb56735-98a8-4263-9094-6b04e73b7c02"/>
+				<textFieldExpression><![CDATA[$F{id_remesa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="11" width="100" height="20" uuid="0c859e32-fe11-45aa-aa5e-2b9c820175b0"/>
+				<textFieldExpression><![CDATA[$F{nombre_pais}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="31" width="249" height="20" uuid="0335eba2-a1dd-49f4-abd5-26bff251bc54"/>
+				<textFieldExpression><![CDATA[$F{persona_envia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="31" width="190" height="20" uuid="0b3299f4-59d4-4e17-9a40-4aa39a6426f2"/>
+				<textFieldExpression><![CDATA[$F{persona_recibe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="51" width="250" height="20" uuid="be98d44a-e0f8-47fa-bbe1-01d158eed97c"/>
+				<textFieldExpression><![CDATA[$F{forma_pago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="51" width="190" height="20" uuid="e34ee941-4350-490d-ac07-385610177fc6"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="71" width="249" height="20" uuid="eda4a8b1-c396-4db2-ae8b-d32c4842eb47"/>
+				<textFieldExpression><![CDATA[$F{nombre_usuario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="11" width="26" height="20" uuid="0780551b-6f82-4d5f-b123-a485970a91fe"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="176" y="11" width="49" height="20" uuid="480602ed-b898-4402-8e3c-390f43d9a892"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pais:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="75" height="20" uuid="091588fa-45dc-4409-9d8b-89ce6e5e5759"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Persona envia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="31" width="85" height="20" uuid="845ca362-929a-4375-a2b0-c7c9d26ba2c4"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Persona recibe:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="51" width="75" height="20" uuid="5035581c-a83c-4f15-a577-86730bd13fb5"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forma pago:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="51" width="85" height="20" uuid="b4670133-2a47-4f02-bc72-4b8c5c3ea7a6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="71" width="76" height="20" uuid="f600c071-89ad-4e54-be4a-b77c4a0a34a7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="410" y="71" width="190" height="20" uuid="c87ad2dc-62b5-4304-91d4-c8f58aaa68a3"/>
+				<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="325" y="71" width="85" height="20" uuid="d5f7a39c-072c-4ebc-866b-bd9d51fb503f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="76" y="91" width="100" height="20" uuid="ace030f1-e0f7-4680-9a32-e7cfffbea8fb"/>
+				<textFieldExpression><![CDATA[$F{clave}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="91" width="76" height="20" uuid="251885a6-2c03-470a-b1c1-7c5f449df2c9"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Clave:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="247" y="91" width="143" height="20" uuid="97b165ed-8e9a-4f39-9c5d-8d93ba4e19e0"/>
+				<textFieldExpression><![CDATA[$F{fecha_envio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="176" y="91" width="71" height="20" uuid="e2bf2bb1-03c9-4080-b987-5858e2eab647"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha envio:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="459" y="91" width="141" height="20" uuid="70c5d19b-81a0-4a6c-9f3f-4524a035bc8b"/>
+				<textFieldExpression><![CDATA[$F{fecha_retiro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="390" y="91" width="69" height="20" uuid="1fd5f9ec-6a8c-4aab-a1e5-8a63e896a759"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha retiro:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="680" height="1" uuid="e6ce402f-1035-4ef3-b790-43ac215efefb"/>
+			</line>
+			<line>
+				<reportElement x="0" y="116" width="680" height="1" uuid="bfe07f86-dd3e-4779-ac2a-4cf35eac3b00"/>
+			</line>
+		</band>
+	</detail>
+	<noData>
+		<band height="50">
+			<staticText>
+				<reportElement x="0" y="0" width="680" height="50" uuid="20611e76-5172-4cb7-b3da-fae544fc1a48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO EXISTEN DATOS]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
